@@ -211,13 +211,123 @@ dari program header.php diatas perhatikan program dibawah ini:
     </div>
 </div>
 ```
+Program user akan menampilkan isi tabel user dari database, menggunakan tabel html yang sudah ditambahkan `jquery` untuk memanipulasi  isi tabel tersebut. Saat ini tabel user masih kosong untuk itu kita akan melakukan penembah data melalui program berikutnya
 ### tambah.php
 ```php
-
+<?php echo form_open_multipart('user/tambah'); ?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Tambah User</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-7 mx-auto">
+                            <div class="row g-3">
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Nama Pegawai<small class="text-danger">*</small> </label>
+                                    <input name="tnama" type="text" class="form-control" value="<?php echo set_value('tnama'); ?>">
+                                    <?php echo form_error('tnama', '<small class="text-danger">', '</small>');
+                                    ?>
+                                </div>
+                                <div class=" col-12 mb-3">
+                                    <label for="alamat_calon" class="form-label">Jenis User</label>
+                                    <select class="form-control form-select-sm" name="tlevel">
+                                        <option value="0">Pilih Jenis User</option>
+                                        <option value="1">Admin </option>
+                                        <option value="2">Teller/CS</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">User<small class="text-danger">*</small> </label>
+                                    <input name="tuser" type="text" class="form-control" value="<?php echo set_value('tuser'); ?>">
+                                    <?php echo form_error('tuser', '<small class="text-danger">', '</small>');
+                                    ?>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Password<small class="text-danger">*</small> </label>
+                                    <input name="tpass" type="text" class="form-control" value="<?php echo set_value('tpass'); ?>">
+                                    <?php echo form_error('tpass', '<small class="text-danger">', '</small>');
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800"></h1>
+        <button type="submit" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Tambah Pengumuman</button>
+    </div>
+</div>
+</form>
 ```
+`<?php echo form_open_multipart('user/tambah'); ?>` yang digunakan dalam program diatas merupakan fasilitas yang diberikan CodeIgniter untuk memudahkan menjalankan fungsi-fungsi form.
 ### edit.php
 ```php
-
+<?php echo form_open_multipart('user/editp'); ?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Edit User</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-7 mx-auto">
+                            <div class="row g-3">
+                                <div class="col-12 mb-3">
+                                    <input name="tid" type="text" class="form-control" value="<?php echo $user['id_login']
+                                                                                                ?>" hidden>
+                                    <label class="form-label">Nama Pegawai<small class="text-danger">*</small> </label>
+                                    <input name="tnama" type="text" class="form-control" value="<?php echo $user['nama']; ?>">
+                                    <?php echo form_error('tnama', '<small class="text-danger">', '</small>');
+                                    ?>
+                                </div>
+                                <div class=" col-12 mb-3">
+                                    <label for="alamat_calon" class="form-label">Jenis User</label>
+                                    <select class="form-control form-select-sm" name="tlevel">
+                                        <option value="0" <?php if ($user['level'] == 0) {
+                                                                echo "selected";
+                                                            } ?>>Pilih Jenis User</option>
+                                        <option value="1" <?php if ($user['level'] == 1) {
+                                                                echo "selected";
+                                                            } ?>>Admin </option>
+                                        <option value="2" <?php if ($user['level'] == 2) {
+                                                                echo "selected";
+                                                            } ?>>Teller/CS</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">User Baru </label>
+                                    <input name="tuser" type="text" class="form-control" placeholder="Isi user bila ingin merubah">
+                                    <?php echo form_error('tuser', '<small class="text-danger">', '</small>');
+                                    ?>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Password Baru </label>
+                                    <input name="tpass" type="text" class="form-control" placeholder="Isi Password bila ingin merubah">
+                                    <?php echo form_error('tpass', '<small class="text-danger">', '</small>');
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800"></h1>
+        <button type="submit" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>Simpan Perubahan</button>
+    </div>
+</div>
+</form>
 ```
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
