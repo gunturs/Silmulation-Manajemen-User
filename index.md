@@ -329,37 +329,130 @@ Program user akan menampilkan isi tabel user dari database, menggunakan tabel ht
 </div>
 </form>
 ```
+## Langkah 3: Controler User.php
+Selanjutnya kita ciptakan file `User.php` dalam folder controller. Ingat karena ini merupakan controller maka wajib diawali dengan huruf kapital. didalam controller ini ada terdapat 7 function utama selain constructor.
+1. `function index` untuk menampilkan tampilan awal yang menjalakan view user.php
+2. `function tambah_user` untuk menjalakan view tambah.php
+3. `function tambah` untuk menjalankan proses tambah data dan memverifikasi jika ada kesalahan data
+4. `function aktif` untuk merubah user menjadi aktif atau non aktif 
+5. `function hapus` untuk menhapus user
+6. `function edit` untuk menjalankam view edit.php
+7. `function editp` untuk melakukan proses edit.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+```php
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
-### Markdown
+class User extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+        $this->load->library('form_validation');
+    }
+    public function index()
+    {
+        $data['page'] = "user";
+        $data['user'] = $this->db->get('user')->result_array();
+        $this->load->view('user/header', $data);
+        $this->load->view('user/user');
+        $this->load->view('user/footer');
+    }
+    public function tambah_user()
+    {
+        $this->load->view('user/header');
+        $this->load->view('user/tambah');
+        $this->load->view('user/footer');
+    }
+    public function tambah()
+    {
+        //validasi kegiatan form
+        $this->form_validation->set_rules("tnama", "Nama Pegawai", "required|trim", [
+            'required' => 'Nama Pegawai tidak boleh kosong'
+        ]);
+        $this->form_validation->set_rules("tuser", "User", "required|trim|min_length[5]|is_unique[user.user]", [
+            'required' => 'User tidak boleh kosong',
+            'is_unique' => 'User sudah terdaftar',
+            'min_length' => 'User minimal 5 karekter'
+        ]);
+        $this->form_validation->set_rules("tpass", "Password", "required|trim|min_length[5]", [
+            'required' => 'Password tidak boleh kosong',
+            'is_unique' => 'password sudah terdaftar',
+            'min_length' => 'Password minimal 5 karekter'
+        ]);
 
-```markdown
-Syntax highlighted code block
+        //Uji validasi form diatas apabila belum memenuhi prosedur   
+        if ($this->form_validation->run() == false) {
+            $this->load->view("user/header");
+            $this->load->view("user/tambah");
+            $this->load->view("user/footer");
+        } else {
+            $data = [
+                'nama' => htmlspecialchars($this->input->post('tnama', true)),
+                'level' => htmlspecialchars($this->input->post('tlevel', true)),
+                'user' => htmlspecialchars($this->input->post('tuser', true)),
+                'pass' => password_hash($this->input->post('tpass', true), PASSWORD_DEFAULT),
+                'aktif' => 0
+            ];
+            $this->db->insert('user', $data);
+            $this->session->set_flashdata('pesan', '  <div class="container alert alert-dismissible alert-success mt-3 mb-5">
+            <p class="mb-0">User berhasil ditambahkan</p>
+        </div>');
+            redirect('user');
+        }
+    }
 
-# Header 1
-## Header 2
-### Header 3
+    public function aktif($id = "", $aktif = "")
+    {
+        if ($aktif == 0) {
+            $this->db->where('id_login', $id);
+            $this->db->update('user', ['aktif' => 1]);
+        } else {
+            $this->db->where('id_login', $id);
+            $this->db->update('user', ['aktif' => 0]);
+        }
 
-- Bulleted
-- List
+        redirect('user');
+    }
+    public function hapus($id = "")
+    {
+        $this->db->delete('user', ['id_login' => $id]);
+        redirect('user');
+    }
+    public function edit($id = "")
+    {
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+        $data['user'] = $this->db->get_where('user', ['id_login' => $id])->row_array();
+        $this->load->view('user/header', $data);
+        $this->load->view('user/edit');
+        $this->load->view('user/footer');
+    }
+    public function editp()
+    {
+        if ($this->input->POST('tuser') != "") {
+            $data = ['user' => $this->input->POST('tuser', true)];
+            $this->db->where('id_login', $this->input->POST('tid'));
+            $this->db->update('user', $data);
+        }
+        if ($this->input->POST('tpass') != "") {
+            $data = ['user' => $this->input->POST('tpass', true)];
+            $this->db->where('id_login', $this->input->POST('tid'));
+            $this->db->update('user', $data);
+        }
+        $data = [
+            'nama' => $this->input->POST('tnama', true),
+            'level' => $this->input->POST('tlevel')
+        ];
+        $this->db->where('id_login', $this->input->POST('tid'));
+        $this->db->update('user', $data);
+        redirect('user');
+    }
+}
 ```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/gunturs/Silmulation-Manajemen-User/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## Langkah 4: Aktifkan Session
+dalam program kita ini terdapat perintah yang menggunakan sesion pada saat mengirimkan pesan kesalahan `  $this->session->set_flashdata` seperti pada saat berhasil menambahkan data dan apabila data yang diisi kosong, dan terdapat juga program `$this->form_validation->run()` untuk mengirimkan validasi apakah penyimpanan dilakukan pengguna atau tidak. perintah-perintah tersebut ada pada `libraries` yang terdapat pada file `autolod.php` untuk itu silahkan edit file tersebut pada bagian berikut:
+```php
+$autoload['libraries'] = array('database', 'session');
+```
+kalau semua sudah dikerjakan silahkan jalankan program dengan memanggil alamat `http://localhost/teknik_antrian/user` sesuaikan dengan base url masing-masing, jika terdapat kesalah periksa kembali satu persatu kodingan dan bisa bertanya melalui classroom
