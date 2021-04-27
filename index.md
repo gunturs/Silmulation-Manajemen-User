@@ -2,6 +2,10 @@
 
 Lanjutan Pratikum kali ini kita akan membuat program yang dapat mengatur user dalam sistem, dalam hal ini yang dapat melakukan pengaturan hanya admin saja, akan tetapi karena kita belum membahas program login maka belum dapat mengatur hak akses untuk masing-masing user, maka  hasil dari program kita sementara ini masih dapat dibuka siapa saja. 
 
+### Langkah 1: Rancang Tabel
+Buat tabel pada database dengan nama `user` dengan struktur seperti dibawah ini:<br>
+![Image]('tabel user.PNG')
+
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
 ### Markdown
