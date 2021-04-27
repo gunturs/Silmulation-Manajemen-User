@@ -6,6 +6,9 @@ Lanjutan Pratikum kali ini kita akan membuat program yang dapat mengatur user da
 Buat tabel pada database dengan nama `user` dengan struktur seperti dibawah ini:<br>
 ![Image]( tabel.PNG )
 
+### Langkah 2: Rancang Tampilan (UI)
+Untuk membuat program kita tersusun dengan rapi maka semua file program yang terdapat pada administrator kita simpan dalam folder yang terpisah, program ini akan disimpan dalam folder `user` yang diletakan dalam folder `view` sehingga `view\user`. Terdapat 5 File dalam folder`user` ini: 
+
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
 ### Markdown
