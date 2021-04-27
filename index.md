@@ -1,6 +1,6 @@
-## Welcome to GitHub Pages
+## Manajemen User
 
-You can use the [editor on GitHub](https://github.com/gunturs/Silmulation-Manajemen-User/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Lanjutan Pratikum kali ini kita akan membuat program yang dapat mengatur user dalam sistem, dalam hal ini yang dapat melakukan pengaturan hanya admin saja, akan tetapi karena kita belum membahas program login maka belum dapat mengatur hak akses untuk masing-masing user, maka  hasil dari program kita sementara ini masih dapat dibuka siapa saja. 
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
