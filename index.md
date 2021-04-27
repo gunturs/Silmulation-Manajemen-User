@@ -1,7 +1,7 @@
 ## Manajemen User
 
 Lanjutan Pratikum kali ini kita akan membuat program yang dapat mengatur user dalam sistem, dalam hal ini yang dapat melakukan pengaturan hanya admin saja, akan tetapi karena kita belum membahas program login maka belum dapat mengatur hak akses untuk masing-masing user, maka  hasil dari program kita sementara ini masih dapat dibuka siapa saja. 
-
+![Image]( hasil.PNG )
 ### Langkah 1: Rancang Tabel
 Buat tabel pada database dengan nama `user` dengan struktur seperti dibawah ini:<br>
 ![Image]( tabel.PNG )
