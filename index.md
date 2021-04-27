@@ -4,7 +4,7 @@ Lanjutan Pratikum kali ini kita akan membuat program yang dapat mengatur user da
 
 ### Langkah 1: Rancang Tabel
 Buat tabel pada database dengan nama `user` dengan struktur seperti dibawah ini:<br>
-![Image]('tabel user.PNG')
+![Image]( tabel.PNG )
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
